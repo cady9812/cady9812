@@ -10,6 +10,7 @@ f=open("mft","rb")
 j=0
 cnt=0
 
+
 def CreatedTime(s, cnt, fsize ):
     print "[*] Created Time : ",
 
@@ -26,6 +27,12 @@ if __name__ == "__main__":
     while fsize:
         s=f.read(1)
         cnt = cnt +1
+
+        if cnt == 61: #file information size
+            stsize=ord(s)
+            stsize = stsize - 4 
+            #print "%02x" % int(ord(s))
+            time.sleep(3)
 
         #if s == '':
         #    break

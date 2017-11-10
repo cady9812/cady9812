@@ -1,4 +1,4 @@
-
+#-*- coding: utf-8 -*-
 import os
 import time
 
@@ -20,7 +20,6 @@ def CreatedTime(s, cnt, fsize ):
         s=f.read(1)
         cnt=cnt+1
     print ""
-    time.sleep(2)
     return s 
 
 if __name__ == "__main__":
@@ -30,9 +29,7 @@ if __name__ == "__main__":
 
         if cnt == 61: #file information size
             stsize=ord(s)
-            stsize = stsize - 4 
-            #print "%02x" % int(ord(s))
-            time.sleep(3)
+            stsize = stsize - 28 
 
         #if s == '':
         #    break
@@ -40,30 +37,33 @@ if __name__ == "__main__":
         if cnt == 81: # CreatedTime
             CreatedTime(s, cnt, fsize)
             cnt = cnt + 8
-        
 
-        if cnt == 241: # filename length 
-            print "[*] File Name Length : ",
-            print "%02x" % int(ord(s)),
+            f.read(stsize)
+            f.read(83)
+            cnt = cnt +stsize
+            cnt = cnt + 83
+             
+            s=f.read(1) #<- filename length 
+            cnt =cnt + 1
+             
+            print "[*] File Length : ",
+            print binascii.b2a_hex('aaa')
+            #print "%02x" % s
+            length = int(s) 
+              
+            f.read(1)
+            s=f.read(1)
+
+           
+            print "File Name : ",
+            for i in range(0,length*2):
+                print s,
+                s=f.read(1)
+                cnt = cnt + 1
             print ""
-            flen=ord(s)
-            s=f.read(1)
-            cnt=cnt+2
-            s=f.read(1)
-#            print "File Name : ",
-#            for i in range(0,flen):
-#                time.sleep(3)
-#                if s != '':
-#                    print chr(ord(s)),
-#                else:
-#                    i = i - 1
-#                s=f.read(1)
-#                cnt = cnt + 1
-#            print ""
 
         if cnt == 1024: # Changed Entry
             print " MFT Entry Changed !!!"
-           
             print ""
             time.sleep(1)
             cnt=0 
